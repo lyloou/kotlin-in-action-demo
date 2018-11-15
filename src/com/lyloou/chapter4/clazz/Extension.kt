@@ -21,6 +21,9 @@ class SubExtension : Extension1() {
 fun main(args: Array<String>) {
     val subExtension = SubExtension()
     subExtension.print()
+
+    println(Outer().Inner().getOuterReference())
+    println(Outer.DefaultInner().getOuterReference())
 }
 
 
@@ -42,4 +45,9 @@ class Outer {
     inner class Inner {
         fun getOuterReference(): Outer = this@Outer
     }
+
+    class DefaultInner {
+        fun getOuterReference(): Outer = Outer()
+    }
+
 }
