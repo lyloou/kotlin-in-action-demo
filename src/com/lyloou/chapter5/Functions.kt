@@ -1,9 +1,27 @@
 package com.lyloou.chapter5
 
 import org.junit.jupiter.api.Test
+import java.io.File
 
 
 class Functions {
+
+
+    @Test
+    fun generateSequenceWithFile() {
+        fun File.isInsideHiddenDirectory() = generateSequence(this) { it.parentFile }.find { it.isHidden }
+        val file = File("/User/lyloou/.hidden/text.txt") // TODO !!! not work well when no hidden directory
+        println(file.isInsideHiddenDirectory())
+    }
+
+    @Test
+    fun generateSequence() {
+        val natureNumber = generateSequence(0) { it + 1 }
+        val numbersTo100 = natureNumber.takeWhile { it <= 100 }
+        println(numbersTo100.javaClass)
+        println(numbersTo100.sum())
+    }
+
     @Test
     fun exampleLazyAndEager() {
         val numbers = listOf(1, 2, 3, 4)
