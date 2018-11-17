@@ -72,3 +72,126 @@ val s1: String = person.name
             change its value outside of the constructor. 
             If you access the property before it’s been initialized,
              you get an exception "lateinit property myService has not been initialized".     
+             
+
+Unlike Java, Kotlin doesn’t differentiate primitive types and wrappers. 
+You always use the same type (for example, Int )            
+p177
+
+you need to apply the conversion explicitly:
+```kotlin
+val i = 1
+val l: Long = i.toLong()
+```
+Kotlin makes the conversion explicit in order to avoid surprises, especially when
+comparing boxed values.
+
+the 8 primitive value (from java to kotlin)
+long    -> Long
+char    -> Char
+int     -> Int
+double  -> Double
+float   -> Float
+byte    -> Byte
+short   -> Short
+boolean -> Boolean
+p180
+
+
+Any type is the
+Similar to how Object is the root of the class hierarchy in Java, the
+supertype of all non-nullable types in Kotlin.
+But in Java, Object is a supertype of all
+reference types only, and primitive types aren’t part of the hierarchy.
+In Kotlin, Any is a supertype of all types, including the primitive types such as Int .
+p181
+
+If you need a variable that can hold any possible value in Kotlin, including null ,
+you must use the Any? type.
+p182
+
+You may wonder why we chose a different name for Unit and didn’t call it Void .
+The name Unit is used traditionally in functional languages to mean `“only one instance,”`
+and that’s exactly what distinguishes Kotlin’s Unit from Java’s void. We could have
+used the customary Void name, but Kotlin has a type called Nothing that performs an
+entirely different function. Having two types called Void and Nothing would be
+confusing because the meanings are so close.
+p183
+
+```kotlin
+fun fail(message: String): Nothing{ 
+    throw IllegalStateException(message)
+}
+```
+The Nothing type doesn’t have any values, so it only makes sense to use it as a
+function return type or as a type argument. In all other cases, declaring a variable where
+you can’t store any value doesn’t make sense.
+
+
+```kotlin
+val list :List<Int?>// first case
+val list :List<Int>?  // second case
+
+val list :List<Int?>? // maybe you want holds a nullable list of nullable numbers
+```
+In the first case, the list itself is always not null , but each value in the list can be
+null . A variable of the second type may contain a null reference instead of a list
+instance, but the elements in the list are guaranteed to be non- null .
+p185
+
+The hierarchy of the Kotlin collection interfaces. The Java classes ArrayList
+and HashSet extend Kotlin mutable interfaces.
+p189
+> compare with kotlin.collections.ArrayList that from org.jetbrains.kotlin:kotlin-stdlib-common:1.2.71
+
+Collection-creation-functions(p190)
+
+|Collection type | Read-Only | Mutable |
+|:---|:---|:---|
+|List| listOf() | arrayListOf()|
+|Set | setOf() | hashSetOf(), linkedSetOf(), sortedSetOf()|
+|Map | mapOf() | hashMapOf(), linkedMapOf(), sortedMapOf()|
+
+
+| Read-Only | Mutable |
+|:---:| :---:|
+| Iterable| MutableIterable|
+| Collection | MutableCollection|
+| List | MutableList|
+| Set | MutableSet |
+| - | ArrayList|
+| - | HashSet |
+
+Note how the same Java type— List<String> —is represented by two different
+Kotlin types: a List<String>? (nullable list of strings) in one case and a
+MutableList<String?> (mutable list of nullable strings) in the other. To make these
+choices correctly, you must know the exact contract the Java interface or class needs to
+follow. As you can see, this is usually easy to understand based on what your
+implementation needs to do.
+p193
+
+To create an array in Kotlin, you have the following possibilities:
+1. The arrayOf() function creates an array containing the elements specified as arguments
+to this function.
+2. The arrayOfNulls() function creates an array of a given size containing null elements.Of course, it can only be used to create arrays where the element type is nullable;
+3. The Array() constructor takes the size of the array and a lambda function, and initializes
+   each array element by calling the lambda. This is how you can initialize an array with a
+   non-null element type without passing each element explicitly
+p193
+
+
+To represent arrays of primitive types, Kotlin provides a number of separate classes,
+one for each primitive type. For example, an array of values of type Int is called
+IntArray . For other types, Kotlin provides ByteArray , CharArray , BooleanArray , and
+so on. All of these types are compiled to regular Java primitive type arrays, such as
+int[] , byte[] , char[] , and so on. Therefore, values in such an array are stored without
+boxing, in the most efficient manner possible.
+p194
+
+To create an array of a primitive type, you have the following options:
+1. The constructor of the type takes a size parameter and returns an array initialized withdefault values for the corresponding primitive type (usually zeros).
+2. The factory function ( intArrayOf for IntArray , and so on for other array types) takes a
+   variable number of values as arguments and creates an array holding those values.
+3. Another constructor takes a size and a lambda used to initialize each element.
+p194
+
