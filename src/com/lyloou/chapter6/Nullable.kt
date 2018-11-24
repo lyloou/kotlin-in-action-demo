@@ -44,4 +44,14 @@ class Nullable {
         val person2 = Person("Bob", null)
         println(person2.countryName())
     }
+
+
+    @Test
+    fun testGetValue() {
+        println(Nullable().nullValue())
+    }
+
+    private fun nullValue(): String? {
+        return null
+    }
 }
