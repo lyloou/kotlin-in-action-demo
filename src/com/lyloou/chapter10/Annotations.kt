@@ -78,6 +78,7 @@ class Annotations {
             println("++$it++")
         })
         println(jsb2?.invoke("asdf"))
+        buildString { }
 
     }
 
